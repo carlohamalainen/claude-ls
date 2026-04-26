@@ -336,10 +336,11 @@ func render(sessions []session, showAll bool) {
 	home, _ := os.UserHomeDir()
 
 	tw := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-	fmt.Fprintln(tw, "TIME\tCWD\tSNIPPET")
+	fmt.Fprintln(tw, "TIME\tCWD\tSESSION\tSNIPPET")
 
 	// Compute a snippet column budget so output fits the terminal width.
-	const timeColWidth = 16 // "2026-04-20 20:17"
+	const timeColWidth = 16    // "2026-04-20 20:17"
+	const sessionColWidth = 36 // standard UUID
 	maxCwdLen := 0
 	displayCwds := make([]string, len(sessions))
 	for i, s := range sessions {
@@ -355,13 +356,13 @@ func render(sessions []session, showAll bool) {
 	// Cap the cwd column so a single huge path doesn't squash the snippet.
 	cwdCol := maxCwdLen
 	if !showAll {
-		hardCap := width / 2
+		hardCap := width / 3
 		if cwdCol > hardCap {
 			cwdCol = hardCap
 		}
 	}
 
-	snippetBudget := max(width-timeColWidth-cwdCol-4, 20) // 2 spaces between cols x2
+	snippetBudget := max(width-timeColWidth-cwdCol-sessionColWidth-6, 20) // 2 spaces between cols x3
 
 	for i, s := range sessions {
 		ts := s.latest.Local().Format("2006-01-02 15:04")
@@ -373,7 +374,7 @@ func render(sessions []session, showAll bool) {
 		if !showAll {
 			snip = truncate(snip, snippetBudget)
 		}
-		fmt.Fprintf(tw, "%s\t%s\t%s\n", ts, cwd, snip)
+		fmt.Fprintf(tw, "%s\t%s\t%s\t%s\n", ts, cwd, s.sessionID, snip)
 	}
 	tw.Flush()
 }
