@@ -22,17 +22,17 @@ Pre-built binaries are published to
 ### macOS (Apple Silicon)
 
 ```sh
-sudo curl -L -o /usr/local/bin/claude-ls \
+curl -L -o claude-ls \
   https://github.com/carlohamalainen/claude-ls/releases/latest/download/claude-ls-darwin-arm64
-sudo chmod +x /usr/local/bin/claude-ls
+chmod +x claude-ls
 ```
 
 ### Linux (x86_64)
 
 ```sh
-sudo curl -L -o /usr/local/bin/claude-ls \
+curl -L -o claude-ls \
   https://github.com/carlohamalainen/claude-ls/releases/latest/download/claude-ls-linux-amd64
-sudo chmod +x /usr/local/bin/claude-ls
+chmod +x claude-ls
 ```
 
 ### Verify the download (optional)
