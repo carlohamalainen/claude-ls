@@ -59,6 +59,7 @@ claude-ls -n 0          # all
 claude-ls -since 24h    # only sessions touched in the last 24h
 claude-ls -since 7d     # last 7 days
 claude-ls -cwd myproj   # filter by cwd substring
+claude-ls -exclude bot  # hide sessions whose cwd contains this substring
 claude-ls -all          # no truncation, no row limit
 claude-ls -version
 ```

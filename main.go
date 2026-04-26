@@ -47,7 +47,8 @@ func main() {
 	var (
 		limit    int
 		sinceStr string
-		cwdSub   string
+		cwdSub      string
+		excludeSub  string
 		showAll     bool
 		root        string
 		showVersion bool
@@ -55,6 +56,7 @@ func main() {
 	flag.IntVar(&limit, "n", 20, "max sessions to show (0 = no limit)")
 	flag.StringVar(&sinceStr, "since", "", "only show sessions newer than this duration ago (e.g. 24h, 7d)")
 	flag.StringVar(&cwdSub, "cwd", "", "filter to sessions whose cwd contains this substring")
+	flag.StringVar(&excludeSub, "exclude", "", "exclude sessions whose cwd contains this substring")
 	flag.BoolVar(&showAll, "all", false, "show all sessions and don't truncate the snippet to terminal width")
 	flag.StringVar(&root, "root", "", "Claude Code projects root (default: $HOME/.claude/projects)")
 	flag.BoolVar(&showVersion, "version", false, "print version and exit")
@@ -106,6 +108,9 @@ func main() {
 			continue
 		}
 		if cwdSub != "" && !strings.Contains(s.cwd, cwdSub) {
+			continue
+		}
+		if excludeSub != "" && strings.Contains(s.cwd, excludeSub) {
 			continue
 		}
 		sessions = append(sessions, s)
